@@ -157,7 +157,7 @@ VITE_RAZORPAY_KEY=
 | Repo | Description |
 |------|-------------|
 | [cip-admin](https://github.com/dhawalshankar/cip-admin) | Internal admin panel frontend (React + TypeScript) |
-| [cip-admin-backend](https://github.com/dhawalshankar/cip-admin-backend) | Internal admin API (Express + Supabase + MongoDB) |
+| [cip-backend](https://github.com/dhawalshankar/cip-backend) | Internal admin API (Express + Supabase + MongoDB) |
 
 ---
 
