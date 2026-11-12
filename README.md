@@ -161,6 +161,23 @@ VITE_RAZORPAY_KEY=
 
 ---
 
+## Production ecosystem
+
+This repository is the public customer-facing storefront in the wider Cosmo
+India Prakashan ecosystem. The React/Vite application and its Vercel
+serverless API functions handle browsing, authentication, carts, checkout,
+payments, and customer orders.
+
+The separately deployed `cip-backend` service is the internal operations
+control plane for products, inventory, employees, audit logs, and order
+fulfillment. The storefront persists customer/order data in MongoDB Atlas,
+while the operations service uses Supabase PostgreSQL for administrative and
+inventory data and reads the shared MongoDB order records. Razorpay payment
+verification is the boundary that turns a customer checkout into a persisted
+business order and downstream fulfillment workflow.
+
+---
+
 ## Contributions
 
 This is a **production business platform**, not a tutorial project.
