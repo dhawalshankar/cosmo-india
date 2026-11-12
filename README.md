@@ -3,6 +3,8 @@
 > A full-stack book publishing and e-commerce platform built to revive Indian literature and cultural heritage.
 
 [![Live Site](https://img.shields.io/badge/live-cosmoindiaprakashan.in-c0392b?style=flat-square)](https://cosmoindiaprakashan.in)
+[![Frontend](https://img.shields.io/badge/frontend-React%20%2B%20Vite-61dafb?style=flat-square)](https://react.dev)
+[![Deployment](https://img.shields.io/badge/deployment-Vercel-black?style=flat-square)](https://vercel.com)
 
 ---
 
@@ -14,6 +16,22 @@
 **Revived & built by:** Dhawal Shukla  
 **Live:** [https://cosmoindiaprakashan.in](https://cosmoindiaprakashan.in)  
 **MSME Registered** | **ISBN Published**
+
+## Product scope
+
+Cosmo India combines a customer storefront with serverless commerce APIs:
+
+- Product discovery for books and publications
+- OTP-backed account creation and password recovery
+- Guest and authenticated cart workflows
+- Razorpay checkout with server-side signature verification
+- Transactional customer and business email notifications
+- Authenticated order history and digital-content access
+- Product ratings, responsive UI, and theme support
+
+The public storefront is intentionally separated from the internal operations
+console. Inventory, employee administration, audit logs, and fulfillment are
+handled by the companion `cip-admin` and `cip-backend` services.
 
 ---
 
@@ -135,6 +153,36 @@ Business notification email → admin
 Customer can view order in Order History
 ```
 
+## System architecture
+
+```text
+Customer browser
+      │
+      ▼
+React/Vite storefront on Vercel
+      │
+      ├── Vercel serverless commerce APIs
+      │       ├── JWT + OTP authentication
+      │       ├── Cart and order operations
+      │       └── Razorpay verification
+      │
+      └── MongoDB Atlas
+              └── users, carts, orders, OTP records
+
+Operations workflow
+      │
+      ▼
+cip-admin on Vercel → cip-backend on Render
+                              ├── Supabase PostgreSQL
+                              │     └── inventory, employees, audit logs
+                              └── MongoDB Atlas
+                                    └── customer orders
+```
+
+The split provides a clear trust boundary: public commerce APIs serve
+customers, while authenticated operations APIs manage fulfillment and stock.
+Payment secrets and database credentials remain server-side.
+
 ---
 
 ## Environment Variables
@@ -149,6 +197,11 @@ BUSINESS_EMAIL_PASSWORD=
 VITE_BACKEND_URL=
 VITE_RAZORPAY_KEY=
 ```
+
+`RAZORPAY_KEY_SECRET`, `JWT_SECRET`, SMTP credentials, and database credentials
+must never be exposed through `VITE_*` variables or committed to source
+control. The publishable Razorpay key may be used by the browser; payment
+signature verification remains server-side.
 
 ---
 
